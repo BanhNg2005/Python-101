@@ -5,6 +5,7 @@ from tkinter import filedialog
 from tkinter import Tk, Text, Frame, Button
 
 class SimpleNotepad:
+    # call a init function to initialize the class
     def __init__(self, root: Tk) -> None:
         self.root = root
         self.root.title('Bao Anh\'s notepad')
@@ -33,8 +34,10 @@ class SimpleNotepad:
         self.current_file_path: str = ""
 
     def save_file(self) -> None:
+        # filedialog.asksaveasfilename() returns the file path
         file_path: str = filedialog.asksaveasfilename(defaultextension='.txt',
                                                       filetypes=[('Text files', '*.txt')])
+        # using if statement to check if the file path is not empty
         if file_path:
             with open(file_path, 'w') as file:
                 file.write(self.text_area.get(1.0, tk.END))
@@ -59,7 +62,7 @@ class SimpleNotepad:
                 file.write(self.text_area.get(1.0, tk.END))
             print(f'File overwritten: {self.current_file_path}')
         else:
-            self.save_file()
+            self.save_file() # if there is no current file path, save the file
 
     def run(self) -> None:
         self.root.mainloop()
