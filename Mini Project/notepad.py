@@ -25,27 +25,41 @@ class SimpleNotepad:
         self.load_button: Button = Button(self.button_frame, text='Load', command=self.load_file)
         self.load_button.pack(side=tk.LEFT)
 
+        # Overwrite button
+        self.overwrite_button: Button = Button(self.button_frame, text='Overwrite', command=self.overwrite_file)
+        self.overwrite_button.pack(side=tk.LEFT)
+
+        # Current file path
+        self.current_file_path: str = ""
+
     def save_file(self) -> None:
         file_path: str = filedialog.asksaveasfilename(defaultextension='.txt',
                                                       filetypes=[('Text files', '*.txt')])
-        # open file path in write mode
-        with open(file_path, 'w') as file:
-            # content located inside the self.text_area from the beginning (which is 1.0)
-            file.write(self.text_area.get(1.0, tk.END))
-
-        print(f'File saved to: {file_path}')
+        if file_path:
+            with open(file_path, 'w') as file:
+                file.write(self.text_area.get(1.0, tk.END))
+                # Update current file path
+            self.current_file_path = file_path
+            print(f'File saved to: {file_path}')
 
     def load_file(self) -> None:
         file_path: str = filedialog.askopenfilename(defaultextension='.txt',
-                                                      filetypes=[('Text files', '*.txt')])
+                                                    filetypes=[('Text files', '*.txt')])
+        if file_path:
+            with open(file_path, 'r') as file:
+                content: str = file.read()
+                self.text_area.delete(1.0, tk.END)
+                self.text_area.insert(tk.INSERT, content)
+            self.current_file_path = file_path
+            print(f'File loaded from: {file_path}')
 
-        # open file in read mode
-        with open(file_path, 'r') as file:
-            content: str = file.read()
-            self.text_area.delete(1.0, tk.END)
-            self.text_area.insert(tk.INSERT, content)
-
-        print(f'FIle loaded from: {file_path}')
+    def overwrite_file(self) -> None:
+        if self.current_file_path:
+            with open(self.current_file_path, 'w') as file:
+                file.write(self.text_area.get(1.0, tk.END))
+            print(f'File overwritten: {self.current_file_path}')
+        else:
+            self.save_file()
 
     def run(self) -> None:
         self.root.mainloop()
