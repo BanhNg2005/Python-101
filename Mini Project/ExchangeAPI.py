@@ -2,11 +2,9 @@ import requests
 from dotenv import load_dotenv
 import os
 
-
 # Load environment variables from .env file
 def configure() -> None:
     load_dotenv()
-
 
 # Call the configure function to load the environment variables
 configure()
