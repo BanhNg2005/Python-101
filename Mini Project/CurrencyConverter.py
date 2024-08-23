@@ -16,11 +16,16 @@ def convert(amount: float, base: str, to: str, rates: dict[str, dict]) -> float:
     try:
         if base == 'eur':
             return amount * to_rates['rate']
-        else:
+        elif base == "eur":
             return amount * to_rates['rate'] / from_rates['rate']
+        elif to == "eur":
+            return amount / from_rates['rate']
+        else:
+            return amount / from_rates['rate'] * to_rates['rate']
     except TypeError:
         print('Please enter a valid currency!')
-        return list(rates.keys())
+        print(f'Existed currency: {list(rates.keys())} ')
+
 
 def main() -> None:
     rates: dict[str, dict] = load_rates('rates.json')
