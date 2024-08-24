@@ -43,10 +43,6 @@ def convert(amount: float, base: str, to: str, rates: dict) -> float:
 
 def main() -> None:
     rates = load_rates()
-    if rates is None:
-        print("Failed to load exchange rates. Exiting.")
-        return
-
     while True:
         try:
             amount = float(input('Enter the amount: '))
