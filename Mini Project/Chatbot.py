@@ -47,10 +47,11 @@ class ChatBot:
             response, similarity = self.get_best_response(user_input)
             if similarity < 0.5:
                 print('I don\'t understand! Could you please rephrase it or you can ask me another question :)')
+                continue
             if response == 'GET_TIME':
                 response = f'The time is: {datetime.now():%H:%M}'
             elif response == 'weather':
-                city = input('Enter the city name (e.g., London,uk): ')
+                city = input('Enter the city name to find the temperature (example: London,uk): ')
                 weather_data = load_weather(city)
                 if weather_data.get('cod') == 200:
                     temp = weather_data['main']['temp']
